@@ -5,7 +5,6 @@
 /tmp
 .idea
 
-dist
 node_modules/
 
 # Logs
