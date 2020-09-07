@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<button onclick="login()" id="button">
+    login with google
+</button>
+<script src="dist/bundle.js"></script>
+<script>
+    const iceteaId = new IceteaId('aa')
+    const encryptionKey = iceteaId.crypto.generateKey();
+    const encrypt = iceteaId.crypto.encrypt('abc', encryptionKey)
+    console.log(encrypt)
+    const decrypt = iceteaId.crypto.decrypt(encrypt, encryptionKey);
+    console.log(decrypt)
+    // const init = async () => {
+    //     const stringToken = localStorage.getItem('credentials');
+    //     const openIdToken = await iceteaId.aws.exchangeSessionCredential('Bearer token');
+    //     console.log(openIdToken);
+    // }
+    // init()
+
+    const login = async () => {
+        const token = await iceteaId.oauth.login({provider: 'google', redirectUri: 'http://localhost:3000/register'})
+        const cognitoCredentials = await iceteaId.aws.exchangeSessionCredential(token);
+        const encrypted = await iceteaId.aws.encrypt(cognitoCredentials, 'abc');
+        console.log(encrypted)
+        const decrypted = await iceteaId.aws.decrypt(cognitoCredentials, encrypted);
+        console.log(decrypted);
+        await iceteaId.users.saveKey(encrypted, encryptionKey);
+    }
+</script>
+</body>
+</html>
