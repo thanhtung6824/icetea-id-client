@@ -14,6 +14,7 @@ export class OauthModule extends BaseModule {
                     const token = data.data;
                     localStorage.setItem('credentials', token);
                     resolve(token);
+                    window.location.href = payload.redirectUri;
                 }
             }, 1000);
         });
