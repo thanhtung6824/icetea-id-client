@@ -27,10 +27,11 @@ export class UsersModule extends BaseModule {
         });
     }
 
-    public async verifyOtp(otpCode: number, emailOrPhone:string): Promise<any> {
+    public async verifyOtp(otpCode: number, emailOrPhone:string, channel: string): Promise<any> {
         return await axios.post(`${this.iceteaId.endpoint}/key/verifyOtp`, {
             email: emailOrPhone,
             verifyCode: otpCode,
+            channel,
         });
     }
 }
