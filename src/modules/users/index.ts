@@ -20,25 +20,16 @@ export class UsersModule extends BaseModule {
         });
     }
 
-    public async sendOtp(email?: string): Promise<any> {
-        let emailVerify: string = email;
-        if (!emailVerify) {
-            const user = await this.getMetadata();
-            emailVerify = user.data.email;
-        }
+    public async sendOtp(channel: string, emailOrPhone: string): Promise<any> {
         return await axios.post(`${this.iceteaId.endpoint}/key/sendOtp`, {
-            email: emailVerify
+            emailOrPhone,
+            channel
         });
     }
 
-    public async verifyOtp(otpCode: number, email?:string): Promise<any> {
-        let emailVerify: string = email;
-        if (!emailVerify) {
-            const user = await this.getMetadata();
-            emailVerify = user.data.email;
-        }
+    public async verifyOtp(otpCode: number, emailOrPhone:string): Promise<any> {
         return await axios.post(`${this.iceteaId.endpoint}/key/verifyOtp`, {
-            email: emailVerify,
+            email: emailOrPhone,
             verifyCode: otpCode,
         });
     }
